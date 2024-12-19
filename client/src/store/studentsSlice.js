@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const BASE_URL = 'https://course-dashboard-e4s-backend.vercel.app//api/';
+const BASE_URL = 'https://course-dashboard-e4s-backend.vercel.app/api/';
 
 export const fetchStudents = createAsyncThunk('students/fetchStudents', async () => {
   const response = await axios.get(`${BASE_URL}/students`);
