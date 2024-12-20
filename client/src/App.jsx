@@ -5,7 +5,8 @@ import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import StudentTable from './components/StudentTable';
 import AddStudentModal from './components/AddStudentModal';
-
+import {Routes,Route} from 'react-router-dom'
+import NotFound from './NotFound';
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false);
@@ -16,8 +17,10 @@ export default function Home() {
   const closeAddStudentModal = () => setIsAddStudentModalOpen(false);
 
   return (
+    
     <Provider store={store}>
-      <div className="flex h-screen bg-gray-100">
+      <Routes>
+        <Route path='/' element={ <div className="flex h-screen bg-gray-100">
         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
         <div className="flex flex-col flex-1 overflow-hidden">
           <Header
@@ -31,7 +34,11 @@ export default function Home() {
           />
           <AddStudentModal isOpen={isAddStudentModalOpen} onClose={closeAddStudentModal} />
         </div>
-      </div>
+      </div>}></Route>
+     
+     <Route path='*' element={<NotFound/>}></Route>
+
+      </Routes>
     </Provider>
   );
 }
