@@ -4,7 +4,7 @@ import { Trash2 } from 'lucide-react';
 import { DeleteConfirmationModal } from './DeleteConfirmationModal';
 import { fetchStudents, deleteStudent } from '../store/studentsSlice';
 
-export default function StudentTable({ openAddStudentModal }) {
+export default function StudentTable({ openAddStudentModal, searchQuery }) {
   const dispatch = useDispatch();
   const { students, status, error } = useSelector((state) => state.students);
   const [selectedYear, setSelectedYear] = useState('AY 2024-25');
@@ -36,11 +36,16 @@ export default function StudentTable({ openAddStudentModal }) {
     return <div>Error: {error}</div>;
   }
 
+  // Filter students based on search query
+  const filteredStudents = students.filter((student) =>
+    student.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="flex-1 p-4 overflow-auto">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 space-y-2 sm:space-y-0">
         <div className="flex flex-col sm:flex-row gap-2">
-          <select 
+          <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(e.target.value)}
             className="px-3 py-2 border rounded-lg bg-gray-50"
@@ -55,7 +60,7 @@ export default function StudentTable({ openAddStudentModal }) {
             <option>CBSE 9</option>
           </select>
         </div>
-        <button 
+        <button
           onClick={openAddStudentModal}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
@@ -91,7 +96,7 @@ export default function StudentTable({ openAddStudentModal }) {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {students.map((student) => (
+            {filteredStudents.map((student) => (
               <tr key={student.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {student.name}
@@ -141,4 +146,3 @@ export default function StudentTable({ openAddStudentModal }) {
     </div>
   );
 }
-
